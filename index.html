@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CursiveCraft — Adult Cursive Tracing & Penmanship Workbook Studio (A4)</title>
+  
+  <!-- Google Fonts: Cursive styles & clean UI typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Caveat:wght@400;600&family=Cedarville+Cursive&family=Dancing+Script:wght@400;600&family=Great+Vibes&family=Marck+Script&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Application Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top App Navigation Bar -->
+  <header class="app-navbar">
+    <div class="brand">
+      <div class="brand-icon">✍️</div>
+      <div class="brand-text">
+        <h1>CursiveCraft Studio</h1>
+        <p>Adult Penmanship & Faint Tracing Workbook Generator (A4 Compatible)</p>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button id="btn-quick-random" class="btn btn-secondary" title="Load random excerpt from curated library">
+        <span>🎲</span> Random Passage
+      </button>
+      <button id="btn-print" class="btn btn-print" title="Print directly or save as vector PDF">
+        <span>🖨️</span> Print / Save PDF (A4)
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Split Layout: Sidebar Controls + Interactive Workspace -->
+  <main class="app-layout">
+    
+    <!-- Left Configuration Sidebar -->
+    <aside class="app-sidebar">
+      
+      <!-- Tab Navigation Switcher -->
+      <nav class="sidebar-tabs">
+        <button class="tab-btn active" data-tab="content">
+          <span class="tab-icon">📝</span>
+          <span>Content</span>
+        </button>
+        <button class="tab-btn" data-tab="typography">
+          <span class="tab-icon">✒️</span>
+          <span>Cursive</span>
+        </button>
+        <button class="tab-btn" data-tab="guidelines">
+          <span class="tab-icon">📐</span>
+          <span>Ruling</span>
+        </button>
+        <button class="tab-btn" data-tab="layout">
+          <span class="tab-icon">📄</span>
+          <span>A4 Page</span>
+        </button>
+        <button class="tab-btn" data-tab="presets">
+          <span class="tab-icon">⭐</span>
+          <span>Presets</span>
+        </button>
+      </nav>
+
+      <!-- Scrollable Tab Content Panels -->
+      <div class="sidebar-scroll">
+        
+        <!-- TAB 1: CONTENT & LIBRARY -->
+        <div id="tab-content" class="tab-content active">
+          
+          <div class="panel-section">
+            <div class="panel-title">
+              <span>Curated Adult Library</span>
+              <span class="label-val">Literature & Drills</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="library-category">Category</label>
+              <select id="library-category" class="form-control">
+                <!-- Dynamically populated from js/library.js -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="library-item">Passage</label>
+              <select id="library-item" class="form-control">
+                <!-- Dynamically populated from js/library.js -->
+              </select>
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <div class="panel-title">
+              <span>Custom Text or Paragraph</span>
+              <span id="char-word-count" class="label-val">0 words</span>
+            </div>
+            <div class="form-group">
+              <textarea id="input-text" class="form-control" rows="6" placeholder="Paste any quote, paragraph, poem, or custom text here..."></textarea>
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <div class="panel-title">Practice Format Mode</div>
+            <div class="form-group">
+              <div class="radio-pill-group">
+                <div class="radio-pill">
+                  <input type="radio" id="mode-alternating" name="practiceMode" value="alternating" checked>
+                  <label for="mode-alternating" title="Trace 1 line, then write 1 freehand line underneath">Trace & Write</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="mode-full" name="practiceMode" value="full">
+                  <label for="mode-full" title="Every line has faint text to trace">Full Trace</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="mode-first-word" name="practiceMode" value="first-word">
+                  <label for="mode-first-word" title="First word faint, remainder blank">First Word Only</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="toggle-switch-row" style="margin-top: 10px;">
+              <div>
+                <div class="toggle-label">Fill Remaining Page</div>
+                <div class="toggle-subtext">Add blank practice lines to fill the page</div>
+              </div>
+              <input type="checkbox" id="fill-remaining" checked>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 2: CURSIVE & TRACING STYLE -->
+        <div id="tab-typography" class="tab-content">
+          
+          <div class="panel-section">
+            <div class="panel-title">Cursive Font Style</div>
+            <div class="form-group">
+              <label class="form-label" for="font-family">Handwriting Font</label>
+              <select id="font-family" class="form-control">
+                <option value="Cedarville Cursive, cursive">Palmer Clean Monoline (Cedarville Cursive)</option>
+                <option value="Alex Brush, cursive">Classic Slanted Script (Alex Brush)</option>
+                <option value="Great Vibes, cursive">Spencerian / Copperplate (Great Vibes)</option>
+                <option value="Allura, cursive">Smooth Formal Cursive (Allura)</option>
+                <option value="Caveat, cursive">Flowing Fountain Pen Hand (Caveat)</option>
+                <option value="Marck Script, cursive">Vintage European Script (Marck Script)</option>
+                <option value="Dancing Script, cursive">Casual Bouncy Cursive (Dancing Script)</option>
+                <option value="'Segoe Script', 'Lucida Handwriting', cursive">System Cursive Fallback</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">
+                <span>Font Size</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <button type="button" id="btn-auto-fit-font" class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" title="Automatically size font to fit the current ruling height">
+                    ✨ Auto-Fit to Ruling
+                  </button>
+                  <span id="val-font-size" class="label-val">28 px</span>
+                </div>
+              </div>
+              <input type="range" id="font-size" class="range-slider" min="14" max="72" step="1" value="28">
+              <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-muted); margin-top:2px;">
+                <span>Small (14px)</span>
+                <span>Medium (32px)</span>
+                <span>Large (52px)</span>
+                <span>Maximum (72px)</span>
+              </div>
+            </div>
+
+            <div class="toggle-switch-row" style="margin-top: 8px;">
+              <div>
+                <div class="toggle-label">Optical Size Equalizer</div>
+                <div class="toggle-subtext">Automatically compensates petite scripts (Cedarville, Alex Brush, Great Vibes) so they match ruling proportions</div>
+              </div>
+              <input type="checkbox" id="optical-scaling" checked>
+            </div>
+
+            <div class="form-group" style="margin-top: 10px;">
+              <div class="form-label">
+                <span>Vertical Baseline Nudge</span>
+                <span id="val-baseline-nudge" class="label-val">0 px</span>
+              </div>
+              <input type="range" id="baseline-nudge" class="range-slider" min="-10" max="10" step="1" value="0">
+              <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-muted); margin-top:2px;">
+                <span>Raise (−10px)</span>
+                <span>Exact (0)</span>
+                <span>Lower (+10px)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <div class="panel-title">Faint Tracing Guide Appearance</div>
+            
+            <div class="form-group">
+              <div class="form-label">
+                <span>Faintness / Opacity</span>
+                <span id="val-trace-opacity" class="label-val">28%</span>
+              </div>
+              <input type="range" id="trace-opacity" class="range-slider" min="0.10" max="0.75" step="0.02" value="0.28">
+              <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-muted); margin-top:2px;">
+                <span>Faint Ghost (10%)</span>
+                <span>Medium (30%)</span>
+                <span>Prominent (70%)</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Tracing Stroke Style</label>
+              <div class="radio-pill-group col-3">
+                <div class="radio-pill">
+                  <input type="radio" id="trace-solid" name="traceStyle" value="solid" checked>
+                  <label for="trace-solid">Solid Faint</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="trace-dotted" name="traceStyle" value="dotted">
+                  <label for="trace-dotted">Dotted</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="trace-outline" name="traceStyle" value="outline">
+                  <label for="trace-outline">Outline</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Trace Ink Color</label>
+              <div class="color-swatches">
+                <div class="color-swatch active" style="background:#455a64;" data-color="#455a64" title="Pencil Graphite"></div>
+                <div class="color-swatch" style="background:#0097a7;" data-color="#0097a7" title="Non-Photo Cyan (Great for Ink Practice)"></div>
+                <div class="color-swatch" style="background:#6d4c41;" data-color="#6d4c41" title="Warm Sepia"></div>
+                <div class="color-swatch" style="background:#1e293b;" data-color="#1e293b" title="Charcoal Black"></div>
+                <div class="color-swatch" style="background:#5c6bc0;" data-color="#5c6bc0" title="Soft Indigo"></div>
+                <input type="color" id="trace-custom-color" class="color-input-custom" value="#455a64" title="Custom color picker">
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- TAB 3: GUIDELINES & RULING GRIDS -->
+        <div id="tab-guidelines" class="tab-content">
+          
+          <div class="panel-section">
+            <div class="panel-title">Ruling / Grid Type</div>
+            <div class="form-group">
+              <select id="guideline-type" class="form-control">
+                <option value="seyes">French Ruled (Grille Seyès 8mm / 2mm)</option>
+                <option value="spencerian">Spencerian / Copperplate (55° Slanted Grid)</option>
+                <option value="threeline" selected>Classic 3-Line (Baseline, Midline, Ascender)</option>
+                <option value="fourline">4-Line Complete (with Descender Guide)</option>
+                <option value="baseline">Minimalist Baseline Only (Adult Rule)</option>
+                <option value="dotgrid">5mm Dot Grid (Bullet Journal Style)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">
+                <span>Line Height (Ruling Spacing)</span>
+                <span id="val-line-height" class="label-val">8.0 mm</span>
+              </div>
+              <input type="range" id="line-height" class="range-slider" min="5.0" max="14.0" step="0.5" value="8.0">
+              <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-muted); margin-top:2px;">
+                <span>Narrow (6mm)</span>
+                <span>College (7.1mm)</span>
+                <span>Wide (8.7mm+)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-section" id="section-slant-controls">
+            <div class="panel-title">
+              <span>Spencerian Slant Lines</span>
+              <span id="val-slant-angle" class="label-val">55°</span>
+            </div>
+            
+            <div class="form-group">
+              <div class="form-label">
+                <span>Slant Angle</span>
+                <div style="display:flex; gap:4px;">
+                  <button type="button" class="btn btn-secondary" style="padding:2px 6px; font-size:10px;" onclick="document.getElementById('slant-angle').value=52; document.getElementById('slant-angle').dispatchEvent(new Event('input'))">52°</button>
+                  <button type="button" class="btn btn-secondary" style="padding:2px 6px; font-size:10px;" onclick="document.getElementById('slant-angle').value=55; document.getElementById('slant-angle').dispatchEvent(new Event('input'))">55°</button>
+                  <button type="button" class="btn btn-secondary" style="padding:2px 6px; font-size:10px;" onclick="document.getElementById('slant-angle').value=0; document.getElementById('slant-angle').dispatchEvent(new Event('input'))">Off (0°)</button>
+                </div>
+              </div>
+              <input type="range" id="slant-angle" class="range-slider" min="0" max="65" step="1" value="55">
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">
+                <span>Slant Line Spacing</span>
+                <span id="val-slant-freq" class="label-val">14 mm</span>
+              </div>
+              <input type="range" id="slant-frequency" class="range-slider" min="8" max="25" step="1" value="14">
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <div class="panel-title">Guideline Tone & Appearance</div>
+            <div class="form-group">
+              <label class="form-label">Grid Tone</label>
+              <div class="color-swatches">
+                <div class="color-swatch active" style="background:#cfd8dc;" data-grid-color="#cfd8dc" title="Soft Slate"></div>
+                <div class="color-swatch" style="background:#b0bec5;" data-grid-color="#b0bec5" title="Graphite Grey"></div>
+                <div class="color-swatch" style="background:#b2ebf2;" data-grid-color="#b2ebf2" title="Light Cyan"></div>
+                <div class="color-swatch" style="background:#d7ccc8;" data-grid-color="#d7ccc8" title="Soft Sepia"></div>
+                <div class="color-swatch" style="background:#c5cae9;" data-grid-color="#c5cae9" title="French Seyès Purple"></div>
+                <input type="color" id="grid-custom-color" class="color-input-custom" value="#cfd8dc" title="Custom grid color">
+              </div>
+            </div>
+
+            <div class="toggle-switch-row" id="row-seyes-margin">
+              <div>
+                <div class="toggle-label">French Red Margin Line</div>
+                <div class="toggle-subtext">Classic vertical left margin line on Seyès grid</div>
+              </div>
+              <input type="checkbox" id="seyes-margin-toggle" checked>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 4: A4 PAGE & LAYOUT -->
+        <div id="tab-layout" class="tab-content">
+          
+          <div class="panel-section">
+            <div class="panel-title">
+              <span>Paper & Dimensions</span>
+              <span class="label-val" style="color:var(--success);">ISO A4 Standard</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="paper-size">Paper Format</label>
+              <select id="paper-size" class="form-control">
+                <option value="A4" selected>A4 (210 × 297 mm) — Standard / Recommended</option>
+                <option value="Letter">US Letter (8.5 × 11 in / 216 × 279 mm)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Orientation</label>
+              <div class="radio-pill-group">
+                <div class="radio-pill">
+                  <input type="radio" id="orient-portrait" name="orientation" value="portrait" checked>
+                  <label for="orient-portrait">Portrait</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="orient-landscape" name="orientation" value="landscape">
+                  <label for="orient-landscape">Landscape</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="toggle-switch-row" style="margin-top: 10px;">
+              <div>
+                <div class="toggle-label">Left Binding / Hole-Punch Allowance</div>
+                <div class="toggle-subtext">Adds extra 12mm left margin for 3-ring binders & clipboards</div>
+              </div>
+              <input type="checkbox" id="binding-margin">
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <div class="panel-title">Page Margins</div>
+            
+            <div class="form-group">
+              <div class="form-label">
+                <span>Top & Bottom Margins</span>
+                <span id="val-margin-tb" class="label-val">15 mm</span>
+              </div>
+              <input type="range" id="margin-tb" class="range-slider" min="10" max="30" step="1" value="15">
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">
+                <span>Left & Right Margins</span>
+                <span id="val-margin-lr" class="label-val">16 mm</span>
+              </div>
+              <input type="range" id="margin-lr" class="range-slider" min="10" max="30" step="1" value="16">
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <div class="panel-title">Header & Footer</div>
+            
+            <div class="form-group">
+              <label class="form-label" for="header-title">Workbook Title</label>
+              <input type="text" id="header-title" class="form-control" value="Adult Cursive Penmanship Practice">
+            </div>
+
+            <div class="toggle-switch-row">
+              <div>
+                <div class="toggle-label">Show Page Header</div>
+                <div class="toggle-subtext">Includes Title, Date line, and Name line</div>
+              </div>
+              <input type="checkbox" id="show-header" checked>
+            </div>
+
+            <div class="toggle-switch-row" style="margin-top: 8px;">
+              <div>
+                <div class="toggle-label">Show Page Footer</div>
+                <div class="toggle-subtext">Includes page numbering (e.g. Page 1 of 2)</div>
+              </div>
+              <input type="checkbox" id="show-footer" checked>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 5: PRESETS -->
+        <div id="tab-presets" class="tab-content">
+          <div class="panel-section">
+            <div class="panel-title">Curated Penmanship Presets</div>
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">
+              1-Click instant setups tuned for specific handwriting disciplines and fountain pen enthusiasts.
+            </p>
+            <div id="preset-list" class="preset-grid">
+              <!-- Dynamically populated from js/presets.js -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- Right Preview & Canvas Workspace -->
+    <section class="app-workspace">
+      
+      <!-- Workspace Toolbar -->
+      <div class="workspace-toolbar">
+        <div class="toolbar-left">
+          <span id="page-count-badge" class="page-indicator">Page 1 of 1</span>
+          <span style="font-size:11px; padding:3px 8px; border-radius:12px; background:rgba(99,102,241,0.15); color:#818cf8; font-weight:600;">
+            A4 1:1 Vector Preview
+          </span>
+        </div>
+
+        <div class="toolbar-right">
+          <!-- Zoom Controls -->
+          <div class="zoom-controls">
+            <button id="btn-zoom-out" class="zoom-btn" title="Zoom Out">−</button>
+            <span id="zoom-value" class="zoom-val">85%</span>
+            <button id="btn-zoom-in" class="zoom-btn" title="Zoom In">+</button>
+            <button id="btn-zoom-reset" class="zoom-btn" style="width:auto; padding:0 6px; font-size:11px;" title="Reset to Fit Width">Fit</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrollable Preview Viewport -->
+      <div class="preview-viewport" id="preview-viewport">
+        <div class="pages-container" id="pages-container">
+          <!-- Dynamically generated A4 workbook pages injected here -->
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="js/library.js"></script>
+  <script src="js/presets.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
+
